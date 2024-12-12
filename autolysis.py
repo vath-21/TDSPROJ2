@@ -1,39 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
-
-# Check and alert for missing libraries
-def check_dependencies():
-    required_packages = [
-        "pandas",
-        "numpy",
-        "seaborn",
-        "matplotlib",
-        "scikit-learn",
-        "missingno",
-        "chardet",
-        "requests"
-    ]
-
-    missing_packages = []
-
-    for package in required_packages:
-        try:
-            __import__(package)
-        except ImportError:
-            missing_packages.append(package)
-
-    if missing_packages:
-        print("\nThe following required packages are missing:")
-        for package in missing_packages:
-            print(f"  - {package}")
-        print("\nPlease install them manually using 'pip install <package>' or ensure your environment includes these libraries.")
-        print("If 'pip' is unavailable, manually install the packages by downloading them from PyPI.")
-        sys.exit(1)
-
-# Run the dependency check
-check_dependencies()
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["numpy", "pandas", "scikit-learn", "chardet", "requests", "seaborn", "matplotlib", "python-dotenv"]
+# ///
 
 import pandas as pd
 import numpy as np
