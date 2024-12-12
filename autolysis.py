@@ -1,5 +1,4 @@
 # /// script
-[tool.uv]
 requires-python = ">=3.11"
 dependencies = [
     "numpy",
