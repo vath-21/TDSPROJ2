@@ -36,11 +36,27 @@ def detect_encoding(filename):
     # Handle UTF-16 without BOM
     if result['encoding'] == 'UTF-16' and not raw_data.startswith(b'\xff\xfe') and not raw_data.startswith(b'\xfe\xff'):
         result['encoding'] = 'utf-16'  # Assume UTF-16 if BOM is missing
+        print("Warning: File is UTF-16 but lacks BOM. Using 'utf-16' encoding.")
     
     return result['encoding']
 
+# Function to preprocess files with missing BOM (optional, adds BOM)
+def add_bom_if_missing(filename):
+    with open(filename, 'rb') as f:
+        raw_data = f.read()
+    if raw_data.startswith(b'\xff\xfe') or raw_data.startswith(b'\xfe\xff'):
+        return filename  # BOM exists; no changes needed
+    # Add BOM and save as a new file
+    new_filename = filename.replace('.csv', '_with_bom.csv')
+    with open(new_filename, 'wb') as f:
+        f.write(b'\xff\xfe' + raw_data)
+    print(f"BOM added to the file. Saved as {new_filename}.")
+    return new_filename
+
 def load_and_clean_data(filename):
     try:
+        # Optionally add BOM if missing
+        filename = add_bom_if_missing(filename)
         encoding = detect_encoding(filename)
         df = pd.read_csv(filename, encoding=encoding)
 
@@ -60,7 +76,6 @@ def load_and_clean_data(filename):
     except UnicodeDecodeError as e:
         print(f"Error: Could not decode the file. Ensure it is properly encoded. Details: {e}")
         sys.exit(1)
-
 
 # Function to summarize the dataset
 def summarize_data(df):
@@ -150,51 +165,6 @@ def create_visualizations(df):
 
     return visualizations  # Always return the list, even if empty
 
-
-# Function to generate GPT-4o-Mini analysis story
-def generate_analysis_story(summary, outliers, correlation_matrix):
-    prompt = f"""
-    Given the following dataset summary:
-    - Shape: {summary['shape']}
-    - Columns: {', '.join(summary['columns'])}
-    - Data Types: {summary['types']}
-    - Descriptive Statistics: {summary['descriptive_statistics']}
-    - Missing values: {summary['missing_values']}
-
-    Additionally, the outliers detected are: {outliers}
-
-    The correlation matrix of the dataset is:
-    {correlation_matrix}
-
-    Generate a detailed, insightful analysis of the dataset. Include an interpretation of the statistics, correlations, outliers, and any recommendations for further analysis. Additionally, narrate the findings in a story-like manner to convey the insights effectively.
-    """
-
-    headers = {
-        "Authorization": f"Bearer {api_key}"
-    }
-    response = requests.post(
-        f"{API_BASE}/chat/completions",
-        headers=headers,
-        json={
-            "model": "gpt-4o-mini",
-            "messages": [{"role": "user", "content": prompt}],
-            "max_tokens": 1000,  # Low token count to reduce cost
-        }
-    )
-    response.raise_for_status()
-    return response.json()["choices"][0]["message"]["content"]
-
-# Function to write the README
-
-def write_readme(story, visualizations, filename):
-    with open('README.md', 'w') as f:
-        f.write(f"# Dataset Analysis of {filename}\n")
-        f.write("\n## Dataset Analysis Story\n")
-        f.write(f"{story}\n")
-        f.write("\n## Visualizations\n")
-        for img in visualizations:
-            f.write(f"![{img}]({img})\n")
-
 # Main function
 def main():
     parser = argparse.ArgumentParser(description="Automated Dataset Analysis")
@@ -208,8 +178,6 @@ def main():
     df, _ = perform_clustering(df)
     df = perform_pca(df)
     visualizations = create_visualizations(df)  # Capture visualizations here
-    story = generate_analysis_story(summary, outliers, correlation_matrix)
-    write_readme(story, visualizations, args.csv_filename)  # Pass visualizations
     print("Analysis complete. Results saved in README.md.")
 
 if __name__ == "__main__":
