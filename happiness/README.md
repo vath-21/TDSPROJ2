@@ -1,69 +1,58 @@
-# Data Analysis Report
+# Automated Dataset Analysis
 
-**Generated on:** 2024-12-12 14:36:51
+## Dataset Summary
+- Number of Rows: 2363
+- Number of Columns: 11
+### Columns and Data Types:
+- Country name: object
+- year: int64
+- Life Ladder: float64
+- Log GDP per capita: float64
+- Social support: float64
+- Healthy life expectancy at birth: float64
+- Freedom to make life choices: float64
+- Generosity: float64
+- Perceptions of corruption: float64
+- Positive affect: float64
+- Negative affect: float64
 
-## Story of the Analysis
-## Data Story: Analyzing Well-being Indicators Across Countries
+## Analysis Narrative
+The dataset you have provided comprises 2363 rows and 11 columns, capturing various indicators related to well-being across different countries and years. Here's a detailed analysis and insights drawn from the dataset:
 
-### 1. Dataset Overview:
-The dataset under analysis comprises 2,363 rows and 11 columns, providing a wealth of information on various well-being indicators across different countries. These indicators encompass subjective measures, such as the ‘Life Ladder,’ as well as concrete factors like economic metrics, social cohesion, and overall health. The columns included are:
+### Overview of Columns
+1. **Country name**: The name of the country.
+2. **Year**: The year the data corresponds to.
+3. **Life Ladder**: A subjective measure of well-being or happiness, typically on a scale from 0 to 10.
+4. **Log GDP per capita**: The logarithm of GDP per capita, which is a common economic indicator of wealth.
+5. **Social support**: A measure of perceived social support (0 to 1 scale).
+6. **Healthy life expectancy at birth**: The average number of years a newborn is expected to live in good health.
+7. **Freedom to make life choices**: A measure of the perceived freedom individuals have to make choices (0 to 1 scale).
+8. **Generosity**: A measure of generosity, often based on charitable donations (0 to 1 scale).
+9. **Perceptions of corruption**: A measure of the perceived level of corruption in the government and businesses (0 to 1 scale).
+10. **Positive affect**: A measure of positive emotions experienced (0 to 1 scale).
+11. **Negative affect**: A measure of negative emotions experienced (0 to 1 scale).
 
-- **Country name** 
-- **Year** 
-- **Life Ladder** (a subjective well-being measure)
-- **Log GDP per capita**
-- **Social support**
-- **Healthy life expectancy at birth**
-- **Freedom to make life choices**
-- **Generosity**
-- **Perceptions of corruption**
-- **Positive affect**
-- **Negative affect**
+### Missing Values
+- The dataset has several columns with missing values:
+  - **Log GDP per capita**: 28 missing values
+  - **Social support**: 13 missing values
+  - **Healthy life expectancy at birth**: 63 missing values
+  - **Freedom to make life choices**: 36 missing values
+  - **Generosity**: 81 missing values
+  - **Perceptions of corruption**: 125 missing values
+  - **Positive affect**: 24 missing values
+  - **Negative affect**: 16 missing values
 
-This dataset enables a comprehensive view into how these factors interplay to shape the well-being of populations around the globe.
+  The presence of missing values in key indicators such as GDP and healthy life expectancy should be addressed, as they could impact the overall analysis.
 
-### 2. Analysis Breakdown:
-In our pursuit to identify patterns and insights within this dataset, we performed four key analyses:
+### Insights and Potential Analysis
+1. **Trends Over Time**:
+   - A time series analysis can be performed to assess how the Life Ladder scores have changed over the years for different countries. This could reveal trends in happiness and well-being over time.
 
-- **Outlier Detection:** We employed statistical techniques to identify data points that deviate significantly from the norm. This process helps us pinpoint potentially erroneous data and significant events that could skew overall analyses.
-
-- **Correlation Analysis:** Utilizing Pearson correlation coefficients, we examined the relationships between all included variables. This statistical measure allows us to determine the strength and direction of relationships, offering insights into how different factors relate to well-being.
-
-- **Clustering:** We applied clustering algorithms to categorize countries based on similarities in their well-being indicators. This technique aids in uncovering natural groupings among nations, enabling better understanding and comparison.
-
-- **Normality Test:** We conducted normality tests (specifically the Shapiro-Wilk test) to assess whether the distributions of various indicators conformed to a normal distribution. This test is crucial for determining the appropriateness of certain statistical analyses.
-
-### 3. Key Insights:
-The analysis yielded several critical findings:
-
-- **Non-Normal Distributions:** All key columns, including ‘year’ and various well-being indicators such as ‘Life Ladder’ and ‘Log GDP per capita,’ do not follow a normal distribution (all p-values reported at 0.000). This indicates that the underlying data may be heavily skewed or contain outliers, which is critical for future analyses and interpretations.
-
-- **Outlier Identification:** Notable outliers were detected across various metrics:
-  - ‘Life Ladder’ has 2 outliers,
-  - ‘Log GDP per capita’ has 3,
-  - ‘Social support’ has a significant 23,
-  - Various other indicators, such as ‘Generosity’ and ‘Perceptions of corruption,’ also have notable outliers, indicating significant deviations in those metrics.
-
-- **Correlation Dynamics:** The correlation heatmap (refer to correlation_heatmap.png) reveals intricate links between different indicators. For instance, higher ‘Log GDP per capita’ often correlates with greater ‘Social support’ and an increased ‘Life Ladder,’ suggesting a strong economic connection to perceived well-being.
-
-- **Clustering Visualization:** The clustering analysis (illustrated in clustering_visualization.png) formed distinct groups of countries based on their well-being scores, indicating potential cultural or economic trends that could inform policy.
-
-### 4. Implications and Actionable Recommendations:
-The implications of these findings are profound:
-
-1. **Targeted Interventions:** Countries showing significant outlier behavior in areas like ‘Social support’ should be examined closely. It may indicate areas where governmental or non-profit interventions could help to mitigate social inequality.
-
-2. **Economic Policies:** Nations with poor scores in ‘Life Ladder’ alongside favorable economic indicators should explore policies aimed at addressing quality of life beyond GDP metrics, perhaps enhancing social welfare programs or healthcare.
-
-3. **Further Research:** The non-normal distributions suggest the need for more robust statistical models or transformations of the data to better understand the dynamics at play. Further qualitative research could provide context around these metrics.
-
-4. **Cross-Cultural Learning:** Countries within similar clusters could benefit from sharing best practices, learning from each other’s successes and failures regarding enhancing citizen well-being.
-
-In summary, the analysis of this dataset not only sheds light on the complexities surrounding well-being indicators but also lays the groundwork for actionable strategies that can potentially transform the lives of individuals in diverse socio-economic contexts.
-
+2. **Correlation Analysis**:
+   - Correlation
 ## Visualizations
-- ![Correlation Heatmap](correlation_heatmap.png)
-- ![Clustering Visualization](clustering_visualization.png)
-
-## Notes
-- For detailed data and visualizations, please refer to the files generated.
+1. Correlation Matrix:
+![Correlation Matrix](correlation_matrix.png)
+2. Distribution Plot:
+![Distribution Plot](distribution_plot.png)
