@@ -1,6 +1,17 @@
 # /// script
-# requires-python = ">=3.11"
-# dependencies = ["numpy", "pandas", "scikit-learn", "chardet", "requests", "seaborn", "matplotlib", "python-dotenv", "missingno"]
+[tool.uv]
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",
+    "pandas",
+    "scikit-learn",
+    "chardet",
+    "requests",
+    "seaborn",
+    "matplotlib",
+    "python-dotenv",
+    "missingno",
+]
 # ///
 
 import pandas as pd
