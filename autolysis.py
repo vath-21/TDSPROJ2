@@ -1,4 +1,3 @@
-
 # /// script
 # requires-python = ">=3.11"
 # dependencies = ["numpy", "pandas", "scikit-learn", "chardet", "requests", "seaborn", "matplotlib", "python-dotenv", "missingno"]
@@ -30,26 +29,37 @@ API_BASE = "https://aiproxy.sanand.workers.dev/openai/v1"
 # Function to detect file encoding
 def detect_encoding(filename):
     with open(filename, 'rb') as f:
-        result = chardet.detect(f.read())
+        raw_data = f.read()
+    result = chardet.detect(raw_data)
+    
+    # Handle UTF-16 without BOM
+    if result['encoding'] == 'UTF-16' and not raw_data.startswith(b'\xff\xfe') and not raw_data.startswith(b'\xfe\xff'):
+        result['encoding'] = 'utf-16'  # Assume UTF-16 if BOM is missing
+    
     return result['encoding']
 
 # Function to load and clean the dataset
 def load_and_clean_data(filename):
-    encoding = detect_encoding(filename)
-    df = pd.read_csv(filename, encoding=encoding)
+    try:
+        encoding = detect_encoding(filename)
+        df = pd.read_csv(filename, encoding=encoding)
 
-    # Drop rows with all NaN values
-    df.dropna(axis=0, how='all', inplace=True)
+        # Drop rows with all NaN values
+        df.dropna(axis=0, how='all', inplace=True)
 
-    # Fill missing values in numeric columns with the mean of the column
-    numeric_columns = df.select_dtypes(include='number')
-    df[numeric_columns.columns] = numeric_columns.fillna(numeric_columns.mean())
+        # Fill missing values in numeric columns with the mean of the column
+        numeric_columns = df.select_dtypes(include='number')
+        df[numeric_columns.columns] = numeric_columns.fillna(numeric_columns.mean())
 
-    # Handle missing values in non-numeric columns (e.g., fill with 'Unknown')
-    non_numeric_columns = df.select_dtypes(exclude='number')
-    df[non_numeric_columns.columns] = non_numeric_columns.fillna('Unknown')
+        # Handle missing values in non-numeric columns (e.g., fill with 'Unknown')
+        non_numeric_columns = df.select_dtypes(exclude='number')
+        df[non_numeric_columns.columns] = non_numeric_columns.fillna('Unknown')
 
-    return df
+        return df
+
+    except UnicodeDecodeError as e:
+        print(f"Error: Could not decode the file. Ensure it is properly encoded. Details: {e}")
+        sys.exit(1)
 
 # Function to summarize the dataset
 def summarize_data(df):
