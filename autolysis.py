@@ -39,7 +39,6 @@ def detect_encoding(filename):
     
     return result['encoding']
 
-# Function to load and clean the dataset
 def load_and_clean_data(filename):
     try:
         encoding = detect_encoding(filename)
@@ -61,6 +60,7 @@ def load_and_clean_data(filename):
     except UnicodeDecodeError as e:
         print(f"Error: Could not decode the file. Ensure it is properly encoded. Details: {e}")
         sys.exit(1)
+
 
 # Function to summarize the dataset
 def summarize_data(df):
