@@ -1,12 +1,40 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
+import subprocess
+
+# Function to install missing packages
+def install_package(package_name):
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package_name])
+    except Exception as e:
+        print(f"Failed to install {package_name}: {e}")
+
+# Ensure required libraries are installed
+required_packages = [
+    "pandas",
+    "numpy",
+    "seaborn",
+    "matplotlib",
+    "scikit-learn",
+    "missingno",
+    "chardet",
+    "requests"
+]
+
+for package in required_packages:
+    try:
+        __import__(package)
+    except ImportError:
+        print(f"{package} is not installed. Installing...")
+        install_package(package)
+
 import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import os
-import sys
 import requests
 from datetime import datetime
 from sklearn.preprocessing import StandardScaler
@@ -201,4 +229,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
