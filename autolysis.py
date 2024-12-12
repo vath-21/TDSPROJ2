@@ -2,33 +2,38 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import subprocess
 
-# Function to install missing packages
-def install_package(package_name):
-    try:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", package_name])
-    except Exception as e:
-        print(f"Failed to install {package_name}: {e}")
+# Check and alert for missing libraries
+def check_dependencies():
+    required_packages = [
+        "pandas",
+        "numpy",
+        "seaborn",
+        "matplotlib",
+        "scikit-learn",
+        "missingno",
+        "chardet",
+        "requests"
+    ]
 
-# Ensure required libraries are installed
-required_packages = [
-    "pandas",
-    "numpy",
-    "seaborn",
-    "matplotlib",
-    "scikit-learn",
-    "missingno",
-    "chardet",
-    "requests"
-]
+    missing_packages = []
 
-for package in required_packages:
-    try:
-        __import__(package)
-    except ImportError:
-        print(f"{package} is not installed. Installing...")
-        install_package(package)
+    for package in required_packages:
+        try:
+            __import__(package)
+        except ImportError:
+            missing_packages.append(package)
+
+    if missing_packages:
+        print("\nThe following required packages are missing:")
+        for package in missing_packages:
+            print(f"  - {package}")
+        print("\nPlease install them manually using 'pip install <package>' or ensure your environment includes these libraries.")
+        print("If 'pip' is unavailable, manually install the packages by downloading them from PyPI.")
+        sys.exit(1)
+
+# Run the dependency check
+check_dependencies()
 
 import pandas as pd
 import numpy as np
