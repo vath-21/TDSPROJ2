@@ -1,17 +1,8 @@
 # /// script
-requires-python = ">=3.11"
-dependencies = [
-    "numpy",
-    "pandas",
-    "scikit-learn",
-    "chardet",
-    "requests",
-    "seaborn",
-    "matplotlib",
-    "python-dotenv",
-    "missingno",
-]
+# requires-python = ">=3.11"
+# dependencies = ["numpy", "pandas", "scikit-learn", "chardet", "requests", "seaborn", "matplotlib", "python-dotenv", "missingno"]
 # ///
+
 
 import pandas as pd
 import numpy as np
